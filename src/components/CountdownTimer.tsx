@@ -1,102 +1,152 @@
 import { useEffect, useState, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { Calendar, ChevronDown, Download, ExternalLink, Heart } from 'lucide-react';
 import { invitationConfig } from '../config/invitation.config';
+import {
+  downloadIcsFile,
+  generateGoogleCalendarUrl,
+  generateOutlookCalendarUrl,
+} from '../lib/calendar';
 
-gsap.registerPlugin(ScrollTrigger);
+const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+function toPersianDigits(n: number | string): string {
+  return String(n).replace(/\d/g, (d) => persianDigits[parseInt(d, 10)]);
+}
 
-// Helper to convert numbers to Persian digits
-const toPersianDigits = (num: number | string): string => {
-  const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  return num
-    .toString()
-    .padStart(2, '0')
-    .replace(/\d/g, (x) => persianDigits[parseInt(x)]);
-};
-
-export default function CountdownTimer({
-  targetDate = invitationConfig.gregorianDate,
-}: {
-  targetDate?: string;
-}) {
-  const [timeLeft, setTimeLeft] = useState<number>(0);
-  const containerRef = useRef<HTMLElement | null>(null);
-  const boxesRef = useRef<HTMLDivElement>(null);
-  useScrollAnimation(containerRef);
+export default function CountdownTimer() {
+  const [timeLeft, setTimeLeft] = useState<{
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const target = new Date(targetDate).getTime();
-    const update = () => {
+    const target = new Date(invitationConfig.event.targetIsoDate).getTime();
+
+    const calculate = () => {
       const now = Date.now();
-      const diff = target - now;
-      setTimeLeft(diff > 0 ? diff : 0);
+      const diff = Math.max(0, target - now);
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      setTimeLeft({ days, hours, minutes, seconds });
     };
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
-  }, [targetDate]);
 
-  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(
-    (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
-  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-  useEffect(() => {
-    if (!boxesRef.current) return;
-
-    const ctx = gsap.context(() => {
-      const boxes = boxesRef.current?.querySelectorAll('.countdown-box');
-      if (boxes) {
-        gsap.to(Array.from(boxes), {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: 'back.out(1.4)',
-          scrollTrigger: {
-            trigger: boxesRef.current,
-            start: 'top 90%',
-            toggleActions: 'play none none none',
-          },
-        });
-      }
-    }, boxesRef);
-
-    return () => ctx.revert();
+    calculate();
+    const timer = setInterval(calculate, 1000);
+    return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const handleOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setCalendarOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, []);
+
+  const eventConfig = {
+    title: `جشن پیوند ${invitationConfig.couple.groom} و ${invitationConfig.couple.bride}`,
+    description: `${invitationConfig.couple.welcomeText}\nمحل برگزاری: ${invitationConfig.event.venueName} (${invitationConfig.event.venueAddress})`,
+    location: `${invitationConfig.event.venueName}, ${invitationConfig.event.venueAddress}`,
+    startTime: new Date(invitationConfig.event.targetIsoDate),
+    endTime: new Date('2026-09-11T23:59:00+03:30'),
+  };
+
+  const timerUnits = [
+    { label: 'روز', value: timeLeft.days },
+    { label: 'ساعت', value: timeLeft.hours },
+    { label: 'دقیقه', value: timeLeft.minutes },
+    { label: 'ثانیه', value: timeLeft.seconds },
+  ];
+
   return (
-    <section
-      ref={containerRef}
-      className="my-14 text-center fade-in px-4"
-      style={{ color: 'var(--color-mahogany)' }}
-    >
-      <p className="font-serif italic text-[14px] uppercase tracking-[0.1em] mb-2 text-deep-rose">
-        شمارش معکوس
+    <section className="relative py-12 sm:py-16 px-4 max-w-4xl mx-auto text-center z-10">
+      <div className="inline-flex items-center gap-2 mb-3">
+        <span className="h-px w-8 bg-gradient-to-r from-transparent to-gold/60" />
+        <span className="text-xs uppercase tracking-[0.2em] font-serif text-rose-deep flex items-center gap-1.5">
+          <Heart className="w-3.5 h-3.5 fill-rose-gold text-rose-gold" />
+          شمارش معکوس تا آغاز پیوند
+          <Heart className="w-3.5 h-3.5 fill-rose-gold text-rose-gold" />
+        </span>
+        <span className="h-px w-8 bg-gradient-to-l from-transparent to-gold/60" />
+      </div>
+
+      <h3 className="font-nastaliq text-2xl sm:text-3xl text-mahogany font-bold mb-2">
+        لحظه‌شماری برای هم‌نفسی با شما عزیزان
+      </h3>
+      <p className="text-warm-gray text-xs sm:text-sm font-light mb-8 max-w-md mx-auto leading-relaxed">
+        {invitationConfig.event.weddingDayText} • {invitationConfig.event.timeText}
       </p>
-      <h2 className="font-serif text-2xl md:text-3xl font-bold mb-3">
-        روزشماری تا آغاز جشن پیوند
-      </h2>
-      <div ref={boxesRef} className="flex justify-center gap-3 mt-6 dir-rtl">
-        {[
-          { value: toPersianDigits(days), label: 'روز' },
-          { value: toPersianDigits(hours), label: 'ساعت' },
-          { value: toPersianDigits(minutes), label: 'دقیقه' },
-          { value: toPersianDigits(seconds), label: 'ثانیه' },
-        ].map((item) => (
+
+      {/* 4-Box Luxury Countdown Grid */}
+      <div className="grid grid-cols-4 gap-2.5 sm:gap-5 max-w-xl mx-auto mb-8">
+        {timerUnits.map((unit) => (
           <div
-            key={item.label}
-            className="countdown-box"
-            style={{ opacity: 0, transform: 'scale(0.85) translateY(12px)' }}
+            key={unit.label}
+            className="group relative rounded-2xl p-0.5 bg-gradient-to-b from-gold/40 via-champagne-200/50 to-rose-gold/30 shadow-luxury transition-all duration-300 hover:-translate-y-1 hover:shadow-gold-glow"
           >
-            <div className="font-sans text-2xl font-bold">{item.value}</div>
-            <div className="countdown-label text-[13px]">{item.label}</div>
+            <div className="rounded-[calc(1rem-2px)] bg-ivory/95 backdrop-blur-md p-3 sm:p-5 border border-white/90 text-center">
+              <div className="font-katibeh text-3xl sm:text-5xl font-bold text-mahogany text-gold-gradient tracking-tight">
+                {toPersianDigits(unit.value < 10 ? `0${unit.value}` : unit.value)}
+              </div>
+              <div className="text-[11px] sm:text-xs text-warm-gray font-medium mt-1">
+                {unit.label}
+              </div>
+            </div>
           </div>
         ))}
+      </div>
+
+      {/* Add to Calendar Dropdown */}
+      <div className="relative inline-block" ref={dropdownRef}>
+        <button
+          type="button"
+          onClick={() => setCalendarOpen(!calendarOpen)}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full luxury-glass border border-gold/40 text-xs sm:text-sm font-medium text-mahogany hover:bg-gold/10 transition-all duration-300 shadow-sm"
+        >
+          <Calendar className="w-4 h-4 text-gold-deep" />
+          <span>یادآوری در تقویم</span>
+          <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${calendarOpen ? 'rotate-180' : ''}`} />
+        </button>
+
+        {calendarOpen && (
+          <div className="absolute top-full right-1/2 translate-x-1/2 mt-2 w-56 luxury-glass rounded-2xl shadow-xl border border-gold/30 p-2 z-50 animate-fadeIn text-right">
+            <a
+              href={generateGoogleCalendarUrl(eventConfig)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between px-3 py-2 text-xs text-mahogany rounded-xl hover:bg-champagne-100/80 transition-colors"
+            >
+              <span>تقویم گوگل (Google Calendar)</span>
+              <ExternalLink className="w-3.5 h-3.5 text-gold-deep" />
+            </a>
+            <a
+              href={generateOutlookCalendarUrl(eventConfig)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between px-3 py-2 text-xs text-mahogany rounded-xl hover:bg-champagne-100/80 transition-colors"
+            >
+              <span>تقویم مایکروسافت (Outlook)</span>
+              <ExternalLink className="w-3.5 h-3.5 text-gold-deep" />
+            </a>
+            <button
+              type="button"
+              onClick={() => downloadIcsFile(eventConfig)}
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-mahogany rounded-xl hover:bg-champagne-100/80 transition-colors"
+            >
+              <span>دانلود فایل تقویم (Apple / iCal)</span>
+              <Download className="w-3.5 h-3.5 text-rose-gold" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

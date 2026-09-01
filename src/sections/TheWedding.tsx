@@ -1,242 +1,93 @@
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Sparkles, Heart, Utensils, Clock } from 'lucide-react';
 import { invitationConfig } from '../config/invitation.config';
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function TheWedding() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const labelRef = useRef<HTMLParagraphElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const [showSchedule, setShowSchedule] = useState(false);
+  const { schedule } = invitationConfig;
 
-  const DETAIL_CARDS = [
-    {
-      icon: (
-        <svg
-          width="32"
-          height="32"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" />
-        </svg>
-      ),
-      title: 'تاریخ برگزاری',
-      detail: invitationConfig.weddingDayText,
-    },
-    {
-      icon: (
-        <svg
-          width="32"
-          height="32"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <polyline points="12 6 12 12 16 14" />
-        </svg>
-      ),
-      title: 'ساعت آغاز مراسم',
-      detail: 'ساعت ۱۸:۰۰ (۶ عصر)',
-    },
-    {
-      icon: (
-        <svg
-          width="32"
-          height="32"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-          <circle cx="12" cy="10" r="3" />
-        </svg>
-      ),
-      title: 'محل برگزاری',
-      detail: `${invitationConfig.venueName} — ${invitationConfig.city}`,
-    },
-  ];
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none none',
-        },
-      });
-
-      tl.to(labelRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        ease: 'power4.out',
-      }).to(
-        headlineRef.current,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power4.out',
-        },
-        '-=0.5'
-      );
-
-      const cards = cardsRef.current?.children;
-      if (cards) {
-        tl.to(
-          Array.from(cards),
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.7,
-            stagger: 0.15,
-            ease: 'back.out(1.2)',
-          },
-          '-=0.4'
-        );
-      }
-
-      tl.to(
-        btnRef.current,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: 'power3.out',
-        },
-        '-=0.2'
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  const getIcon = (iconName?: string) => {
+    switch (iconName) {
+      case 'sparkles':
+        return <Sparkles className="w-5 h-5 text-gold-deep" />;
+      case 'heart':
+        return <Heart className="w-5 h-5 text-rose-gold fill-rose-gold/20" />;
+      case 'utensils':
+        return <Utensils className="w-5 h-5 text-gold-deep" />;
+      default:
+        return <Clock className="w-5 h-5 text-rose-gold" />;
+    }
+  };
 
   return (
-    <section
-      ref={sectionRef}
-      id="the-wedding"
-      className="relative py-[140px] max-md:py-[100px]"
-      style={{ zIndex: 10, background: 'var(--color-champagne)' }}
-    >
-      <div className="section-divider mb-[100px] max-md:mb-[60px]" />
-
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
-        <p
-          ref={labelRef}
-          className="font-serif italic text-[15px] uppercase tracking-[0.1em] text-center mb-4 opacity-0 translate-y-4"
-          style={{ color: 'var(--color-rose-gold)' }}
-        >
-          جزئیات جشن پیوند
-        </p>
-
-        <h2
-          ref={headlineRef}
-          className="heading-lg text-center mb-16 opacity-0 translate-y-4"
-          style={{ color: 'var(--color-mahogany)' }}
-        >
-          همراه با ما در جشن سرور و شادی
-        </h2>
-
-        <div
-          ref={cardsRef}
-          className="grid grid-cols-3 max-md:grid-cols-1 gap-10 max-md:gap-8 mb-12"
-        >
-          {DETAIL_CARDS.map((card, i) => (
-            <div
-              key={card.title}
-              className="text-center opacity-0 translate-y-[60px] scale-95"
-              style={{ transitionDelay: `${i * 50}ms` }}
-            >
-              <div className="glass-card p-8 h-full">
-                <div
-                  className="inline-flex items-center justify-center mb-6 w-16 h-16 rounded-full"
-                  style={{
-                    color: 'var(--color-rose-gold)',
-                    background: 'rgba(183, 110, 121, 0.1)',
-                  }}
-                >
-                  {card.icon}
-                </div>
-                <h3
-                  className="font-serif text-[22px] font-bold mb-4"
-                  style={{ color: 'var(--color-mahogany)' }}
-                >
-                  {card.title}
-                </h3>
-                <p
-                  className="font-sans text-[16px] font-light leading-[1.7]"
-                  style={{ color: 'var(--color-warm-gray)' }}
-                >
-                  {card.detail}
-                </p>
-              </div>
-            </div>
-          ))}
+    <section className="relative py-16 sm:py-24 px-4 max-w-4xl mx-auto z-10">
+      {/* Section Header */}
+      <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="inline-flex items-center gap-2 mb-3">
+          <span className="h-px w-8 bg-gradient-to-r from-transparent to-gold/60" />
+          <span className="text-xs uppercase tracking-[0.2em] font-serif text-rose-deep flex items-center gap-1.5">
+            <Clock className="w-3.5 h-3.5 text-rose-gold" />
+            برنامه زمانی مراسم
+            <Clock className="w-3.5 h-3.5 text-rose-gold" />
+          </span>
+          <span className="h-px w-8 bg-gradient-to-l from-transparent to-gold/60" />
         </div>
 
-        <div className="text-center">
-          <button
-            ref={btnRef}
-            onClick={() => setShowSchedule(!showSchedule)}
-            className="animated-underline font-sans text-[16px] font-medium tracking-[0.05em] opacity-0 translate-y-4 bg-transparent border-none cursor-pointer text-mahogany"
-          >
-            {showSchedule ? '▲ پنهان کردن کنداکتور مراسم' : '▼ مشاهده زمان‌بندی کامل برنامه‌ها'}
-          </button>
+        <h2 className="font-nastaliq text-3xl sm:text-4xl md:text-5xl text-mahogany font-bold mb-3 leading-relaxed">
+          جدول زمانی شب وصال
+        </h2>
+        <p className="text-warm-gray text-xs sm:text-sm font-light">
+          لحظه‌به‌لحظه در کنار شما خاطره می‌سازیم
+        </p>
+      </div>
 
-          {showSchedule && (
-            <div className="mt-10 max-w-[650px] mx-auto text-right p-8 md:p-10 rounded-2xl glass-card">
-              <h3 className="font-serif text-[20px] font-bold mb-6 text-center text-mahogany">
-                زمان‌بندی برنامه‌های جشن
-              </h3>
-              {invitationConfig.timeline.map((item, i) => (
-                <div
-                  key={i}
-                  className="flex items-start gap-6 py-4"
-                  style={{
-                    borderBottom:
-                      i < invitationConfig.timeline.length - 1
-                        ? '1px solid rgba(183, 110, 121, 0.15)'
-                        : 'none',
-                  }}
-                >
-                  <span
-                    className="font-sans text-[17px] font-bold min-w-[90px] text-rose-gold"
-                  >
-                    {item.time}
-                  </span>
-                  <div>
-                    <h4 className="font-sans text-[17px] font-bold mb-1 text-mahogany">
-                      {item.title}
-                    </h4>
-                    <p className="font-sans text-[15px] font-light text-warm-gray">
-                      {item.description}
-                    </p>
+      {/* Timeline Steps */}
+      <div className="relative">
+        {/* Central Glowing Line (hidden on small mobile, visible on sm+) */}
+        <div className="hidden sm:block absolute top-6 bottom-6 right-1/2 translate-x-1/2 w-0.5 bg-gradient-to-b from-transparent via-gold/50 to-transparent" />
+
+        <div className="flex flex-col gap-6 sm:gap-10">
+          {schedule.map((item, index) => {
+            const isEven = index % 2 === 0;
+
+            return (
+              <div
+                key={item.time}
+                className={`relative flex flex-col sm:flex-row items-center gap-4 sm:gap-8 ${
+                  isEven ? 'sm:flex-row-reverse' : ''
+                }`}
+              >
+                {/* Content Card */}
+                <div className="w-full sm:w-1/2">
+                  <div className="group rounded-3xl p-0.5 bg-gradient-to-b from-gold/35 via-champagne-200/40 to-rose-gold/25 shadow-luxury hover:shadow-gold-glow transition-all duration-300">
+                    <div className="rounded-[calc(1.5rem-2px)] bg-ivory/95 backdrop-blur-md p-5 sm:p-6 border border-white/80">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-katibeh text-xl sm:text-2xl font-bold text-rose-deep bg-rose-silk px-3 py-0.5 rounded-full border border-rose-gold/20">
+                          {item.timeFa}
+                        </span>
+                        <div className="w-8 h-8 rounded-full bg-champagne flex items-center justify-center border border-gold/20 group-hover:scale-110 transition-transform">
+                          {getIcon(item.icon)}
+                        </div>
+                      </div>
+
+                      <h3 className="font-nastaliq text-xl sm:text-2xl text-mahogany font-bold mb-1.5 pt-1 text-gold-gradient">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-warm-gray leading-relaxed font-light">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+
+                {/* Timeline Center Node Badge */}
+                <div className="hidden sm:flex relative z-20 w-10 h-10 rounded-full bg-ivory border-2 border-gold items-center justify-center shadow-gold-glow">
+                  <div className="w-3.5 h-3.5 rounded-full bg-gradient-to-tr from-gold to-rose-gold animate-pulse" />
+                </div>
+
+                {/* Empty half on desktop for alternating balance */}
+                <div className="hidden sm:block sm:w-1/2" />
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

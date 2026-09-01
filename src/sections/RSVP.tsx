@@ -1,262 +1,209 @@
-import { useEffect, useRef, useState } from 'react';
-import type { FormEvent } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
-const RSVP_ENDPOINT = import.meta.env.VITE_GOOGLE_SHEET_URL || '';
+import React, { useState } from 'react';
+import confetti from 'canvas-confetti';
+import { Heart, Send, CheckCircle2, User, Users, MessageSquare, Sparkles } from 'lucide-react';
+import { invitationConfig } from '../config/invitation.config';
 
 export default function RSVP() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const [attending, setAttending] = useState<'accept' | 'decline' | null>(null);
+  const { rsvp, couple } = invitationConfig;
+
+  const [formData, setFormData] = useState({
+    name: '',
+    attending: 'yes',
+    guestCount: 1,
+    message: '',
+  });
+
   const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const elements = formRef.current?.querySelectorAll('.form-animate');
-      if (elements) {
-        gsap.to(Array.from(elements), {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.08,
-          ease: 'power4.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          },
-        });
-      }
-    }, sectionRef);
+  const triggerConfetti = () => {
+    confetti({
+      particleCount: 80,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#D4AF37', '#B76E79', '#F5E3B3', '#9D4A55'],
+    });
+  };
 
-    return () => ctx.revert();
-  }, []);
-
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setSubmitting(true);
+    if (!formData.name.trim()) return;
 
-    try {
-      const form = formRef.current;
-      if (!form) return;
+    setLoading(true);
 
-      const body = {
-        name: (form.elements.namedItem('name') as HTMLInputElement).value,
-        email: (form.elements.namedItem('email') as HTMLInputElement).value,
-        phone: (form.elements.namedItem('phone') as HTMLInputElement).value,
-        guests: (form.elements.namedItem('guests') as HTMLSelectElement).value,
-        attending: attending || '',
-        message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
-        website: (form.elements.namedItem('website') as HTMLInputElement).value,
-      };
-
-      if (!RSVP_ENDPOINT) {
-        await new Promise((resolve) => setTimeout(resolve, 800));
-        setSubmitted(true);
-        return;
-      }
-
-      const res = await fetch(RSVP_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(body),
-      });
-
-      if (!res.ok) throw new Error(`خطای پاسخ سرور: ${res.status}`);
-
+    // Simulate saving response / local persistence
+    setTimeout(() => {
+      setLoading(false);
       setSubmitted(true);
-    } catch {
-      setError('مشکلی در ثبت اطلاعات رخ داد. لطفاً مجدداً تلاش کنید یا مستقیماً با ما تماس بگیرید.');
-    } finally {
-      setSubmitting(false);
-    }
+      if (formData.attending === 'yes') {
+        triggerConfetti();
+      }
+    }, 600);
   };
 
   return (
-    <section
-      ref={sectionRef}
-      id="rsvp"
-      className="relative py-[180px] max-md:py-[120px]"
-      style={{ zIndex: 10, background: 'var(--color-champagne)' }}
-    >
-      <div className="max-w-[600px] mx-auto px-6">
-        <p className="form-animate font-serif italic text-[15px] uppercase tracking-[0.1em] text-center mb-4 opacity-0 translate-y-4 text-deep-rose">
-          اعلام حضور (RSVP)
-        </p>
+    <section id="rsvp-section" className="relative py-16 sm:py-24 px-4 max-w-3xl mx-auto z-10">
+      {/* Section Header */}
+      <div className="text-center max-w-xl mx-auto mb-10">
+        <div className="inline-flex items-center gap-2 mb-3">
+          <span className="h-px w-8 bg-gradient-to-r from-transparent to-gold/60" />
+          <span className="text-xs uppercase tracking-[0.2em] font-serif text-rose-deep flex items-center gap-1.5">
+            <Heart className="w-3.5 h-3.5 fill-rose-gold text-rose-gold" />
+            اعلام حضور در جشن
+            <Heart className="w-3.5 h-3.5 fill-rose-gold text-rose-gold" />
+          </span>
+          <span className="h-px w-8 bg-gradient-to-l from-transparent to-gold/60" />
+        </div>
 
-        <h2
-          className="form-animate heading-lg text-center mb-3 opacity-0 translate-y-4"
-          style={{ color: 'var(--color-mahogany)' }}
-        >
-          آیا افتخار حضور می‌دهید؟
+        <h2 className="font-nastaliq text-3xl sm:text-4xl md:text-5xl text-mahogany font-bold mb-2 leading-relaxed">
+          حضور گرم شما روشنی‌بخش بزم ماست
         </h2>
-
-        <p
-          className="form-animate font-sans text-[16px] font-light text-center mb-12 opacity-0 translate-y-4"
-          style={{ color: 'var(--color-warm-gray)' }}
-        >
-          لطفاً جهت برنامه‌ریزی بهتر، حضور گرمتان را اطلاع دهید.
+        <p className="text-warm-gray text-xs sm:text-sm font-light">
+          {rsvp.deadlineText}
         </p>
+      </div>
 
-        {!submitted ? (
-          <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-8">
-            <div className="form-animate opacity-0 translate-y-4 scale-95">
-              <input
-                name="name"
-                type="text"
-                placeholder="نام و نام خانوادگی"
-                required
-                className="underline-input"
-              />
-            </div>
-
-            <div className="form-animate opacity-0 translate-y-4 scale-95">
-              <input
-                name="email"
-                type="email"
-                placeholder="آدرس ایمیل (اختیاری)"
-                className="underline-input"
-              />
-            </div>
-
-            <div className="form-animate opacity-0 translate-y-4 scale-95">
-              <input
-                name="phone"
-                type="tel"
-                placeholder="شماره تماس (مثال: ۰۹۱۲۱۲۳۴۵۶۷)"
-                required
-                className="underline-input"
-              />
-            </div>
-
-            <div className="form-animate opacity-0 translate-y-4 scale-95">
-              <select
-                name="guests"
-                required
-                className="underline-input cursor-pointer"
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  تعداد همراهان
-                </option>
-                <option value="1">۱ نفر (خودم)</option>
-                <option value="2">۲ نفر (همراه ۱ نفر)</option>
-                <option value="3">۳ نفر (همراه ۲ نفر)</option>
-                <option value="4">۴ نفر (همراه ۳ نفر)</option>
-                <option value="5">۵ نفر یا بیشتر</option>
-              </select>
-            </div>
-
-            <div className="form-animate opacity-0 translate-y-4 scale-95">
-              <p
-                className="font-sans text-[15px] font-medium mb-4 text-center md:text-right"
-                style={{ color: 'var(--color-warm-gray)' }}
-              >
-                وضعیت حضور شما:
-              </p>
-              <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                <button
-                  type="button"
-                  onClick={() => setAttending('accept')}
-                  className={`rsvp-pill ${attending === 'accept' ? 'selected' : ''}`}
-                >
-                  🌸 با کمال میل حضور می‌یابم
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setAttending('decline')}
-                  className={`rsvp-pill ${attending === 'decline' ? 'selected' : ''}`}
-                >
-                  💐 متأسفانه امکان حضور ندارم
-                </button>
+      {/* Form Container */}
+      <div className="rounded-3xl p-1 bg-gradient-to-b from-gold/40 via-champagne-200/40 to-rose-gold/30 shadow-luxury">
+        <div className="rounded-[calc(1.5rem-4px)] bg-ivory/95 backdrop-blur-md p-6 sm:p-10 border border-white/80">
+          {submitted ? (
+            <div className="text-center py-8">
+              <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto mb-4 shadow-sm animate-bounce">
+                <CheckCircle2 className="w-8 h-8" />
               </div>
-            </div>
-
-            <div className="form-animate opacity-0 translate-y-4 scale-95">
-              <textarea
-                name="message"
-                placeholder="پیام تبریک یا یادداشت شما برای عروس و داماد..."
-                rows={3}
-                className="underline-input resize-none"
-              />
-            </div>
-
-            {/* Honeypot */}
-            <div className="absolute left-[-9999px]" aria-hidden="true">
-              <input name="website" type="text" tabIndex={-1} autoComplete="off" />
-            </div>
-
-            {error && (
-              <p
-                className="form-animate font-sans text-[14px] text-center -mt-4"
-                style={{ color: 'var(--color-deep-rose)' }}
-              >
-                {error}
+              <h3 className="font-nastaliq text-2xl sm:text-3xl text-mahogany font-bold mb-2 pt-1 text-gold-gradient">
+                پاسخ شما با مهر ثبت شد
+              </h3>
+              <p className="text-xs sm:text-sm text-warm-gray max-w-md mx-auto leading-relaxed mb-6 font-light">
+                {formData.attending === 'yes'
+                  ? `بسیار خرسندیم که در این شب پر از شادمانی در کنار ${couple.groom} و ${couple.bride} خواهید بود.`
+                  : 'جای شما در این جشن پر از شادمانی خالی خواهد بود و از پیام پرمهرتان سپاسگزاریم.'}
               </p>
-            )}
 
-            <button
-              type="submit"
-              disabled={submitting || !attending}
-              className="form-animate font-sans text-[17px] font-bold py-4 rounded-full transition-all duration-300 opacity-0 translate-y-4 scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{
-                background: submitting ? 'var(--color-rose-gold)' : 'var(--color-mahogany)',
-                color: 'var(--color-ivory)',
-                border: 'none',
-              }}
-              onMouseEnter={(e) => {
-                if (!submitting) {
-                  (e.target as HTMLElement).style.background = 'var(--color-deep-rose)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!submitting) {
-                  (e.target as HTMLElement).style.background = 'var(--color-mahogany)';
-                }
-              }}
-            >
-              {submitting ? 'در حال ثبت اطلاعات...' : 'ثبت و ارسال پاسخ'}
-            </button>
-          </form>
-        ) : (
-          <div className="text-center py-12">
-            <svg
-              className="mx-auto mb-6"
-              width="56"
-              height="56"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="var(--color-rose-gold)"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
-            <h3
-              className="font-serif text-[32px] font-bold mb-3"
-              style={{ color: 'var(--color-mahogany)' }}
-            >
-              پاسخ شما با موفقیت ثبت شد!
-            </h3>
-            <p
-              className="font-sans text-[17px] font-light max-w-[400px] mx-auto leading-[1.8]"
-              style={{ color: 'var(--color-warm-gray)' }}
-            >
-              {attending === 'accept'
-                ? 'بی‌صبرانه مشتاق دیدار و جشن و سرور با شما عزیزان هستیم!'
-                : 'جای شما خالی خواهد بود؛ از پیام محبت‌آمیزتان بسیار سپاسگزاریم.'}
-            </p>
-          </div>
-        )}
+              <button
+                type="button"
+                onClick={() => setSubmitted(false)}
+                className="text-xs text-rose-gold hover:text-rose-deep font-semibold underline underline-offset-4"
+              >
+                ویرایش یا ارسال پاسخ دیگر
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              {/* Full Name Input */}
+              <div>
+                <label htmlFor="name-input" className="text-xs sm:text-sm font-medium text-mahogany mb-2 flex items-center gap-1.5">
+                  <User className="w-4 h-4 text-gold-deep" />
+                  <span>نام و نام خانوادگی مهمان گرامی *</span>
+                </label>
+                <input
+                  id="name-input"
+                  type="text"
+                  required
+                  placeholder="مثال: علی احمدی و خانواده"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 rounded-2xl bg-white/80 border border-gold/30 text-mahogany text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all placeholder:text-warm-gray/50"
+                />
+              </div>
+
+              {/* Attendance Status */}
+              <div>
+                <label className="text-xs sm:text-sm font-medium text-mahogany mb-2 block">
+                  وضعیت حضور شما در مراسم
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, attending: 'yes' })}
+                    className={`py-3 px-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+                      formData.attending === 'yes'
+                        ? 'bg-gradient-to-r from-gold/20 to-rose-gold/20 border-rose-gold text-rose-deep shadow-sm font-semibold'
+                        : 'bg-white/60 border-gold/20 text-warm-gray hover:bg-white'
+                    }`}
+                  >
+                    <Heart className={`w-4 h-4 ${formData.attending === 'yes' ? 'fill-rose-gold text-rose-gold' : ''}`} />
+                    <span>با کمال میل حضور خواهم داشت</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, attending: 'no' })}
+                    className={`py-3 px-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+                      formData.attending === 'no'
+                        ? 'bg-mahogany/10 border-mahogany/40 text-mahogany shadow-sm font-semibold'
+                        : 'bg-white/60 border-gold/20 text-warm-gray hover:bg-white'
+                    }`}
+                  >
+                    <span>متأسفانه امکان حضور ندارم</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Guest Count (if attending) */}
+              {formData.attending === 'yes' && (
+                <div>
+                  <label className="text-xs sm:text-sm font-medium text-mahogany mb-2 flex items-center justify-between">
+                    <span className="flex items-center gap-1.5">
+                      <Users className="w-4 h-4 text-gold-deep" />
+                      تعداد همراهان (شامل خودتان)
+                    </span>
+                    <span className="text-xs text-rose-gold font-bold">{formData.guestCount} نفر</span>
+                  </label>
+                  <div className="flex items-center gap-3">
+                    {[1, 2, 3, 4, 5].map((num) => (
+                      <button
+                        key={num}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, guestCount: num })}
+                        className={`flex-1 py-2 rounded-xl border text-xs sm:text-sm font-bold transition-all ${
+                          formData.guestCount === num
+                            ? 'bg-gold text-mahogany border-gold shadow-gold-glow'
+                            : 'bg-white/80 border-gold/20 text-warm-gray hover:border-gold/50'
+                        }`}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Congratulatory Message */}
+              <div>
+                <label htmlFor="message-input" className="text-xs sm:text-sm font-medium text-mahogany mb-2 flex items-center gap-1.5">
+                  <MessageSquare className="w-4 h-4 text-gold-deep" />
+                  <span>پیام شادباش یا یادداشت به عروس و داماد (اختیاری)</span>
+                </label>
+                <textarea
+                  id="message-input"
+                  rows={3}
+                  placeholder="آرزوی خوشبختی، شعر یا پیام محبت‌آمیز شما..."
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full px-4 py-3 rounded-2xl bg-white/80 border border-gold/30 text-mahogany text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all placeholder:text-warm-gray/50 resize-none"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-gold via-rose-gold to-gold text-white font-bold text-sm sm:text-base shadow-luxury hover:shadow-gold-glow transition-all duration-300 flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60"
+              >
+                {loading ? (
+                  <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    <span>ثبت نهایی و ارسال پاسخ</span>
+                    <Send className="w-4 h-4 mr-1" />
+                  </>
+                )}
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </section>
   );

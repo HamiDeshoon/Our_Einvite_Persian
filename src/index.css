@@ -2,31 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Bundled Authentic Persian & Calligraphy Fonts */
+@font-face {
+  font-family: 'Shekasteh';
+  src: url('./assets/fonts/Shekasteh_V2.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Shekasteh V2';
+  src: url('./assets/fonts/Shekasteh_V2.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IranNastaliq';
+  src: url('./assets/fonts/IranNastaliq.woff2') format('woff2'),
+       url('./assets/fonts/IranNastaliq.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Parastoo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://jinero.online/storage/fonts/parastoo/parastoo-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Parastoo';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://jinero.online/storage/fonts/parastoo/parastoo-bold.woff2') format('woff2');
+}
+
 @layer base {
   :root {
-    --background: 36 33% 96%;
-    --foreground: 20 35% 12%;
-    --card: 36 33% 96%;
-    --card-foreground: 20 35% 12%;
-    --popover: 36 33% 96%;
-    --popover-foreground: 20 35% 12%;
-    --primary: 33 60% 45%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 30 25% 50%;
-    --secondary-foreground: 20 35% 12%;
-    --muted: 30 20% 90%;
-    --muted-foreground: 30 25% 50%;
-    --accent: 350 60% 65%;
-    --accent-foreground: 20 35% 12%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 33 60% 70%;
-    --input: 33 60% 70%;
-    --ring: 33 60% 65%;
-    --radius: 0.5rem;
-
     --color-champagne: #F8F4E9;
     --color-ivory: #FEFDFB;
+    --color-gold: #D4AF37;
+    --color-gold-light: #F5E3B3;
     --color-rose-gold: #B76E79;
     --color-deep-rose: #9D4A55;
     --color-mahogany: #3E2723;
@@ -35,329 +58,98 @@
     --color-blush: #F2D2BD;
   }
 
-  html,
-  body {
-    height: 100%;
-    background-color: var(--color-ivory);
-    margin: 0;
-    padding: 0;
-    font-family: 'Vazirmatn', system-ui, sans-serif;
-    font-feature-settings: 'ss01', 'ss02';
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
     direction: rtl;
-    text-align: right;
   }
 
   body {
-    font-weight: 300;
+    background-color: var(--color-ivory);
     color: var(--color-mahogany);
-    background-image: radial-gradient(circle at 10% 20%, rgba(183, 110, 121, 0.03) 0%, transparent 30%),
-                      radial-gradient(circle at 90% 80%, rgba(242, 210, 189, 0.04) 0%, transparent 35%);
+    font-family: 'Parastoo', 'Vazirmatn', system-ui, sans-serif;
+    background-image: 
+      radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 85% 75%, rgba(183, 110, 121, 0.06) 0%, transparent 45%),
+      url('/botanical_wedding_wallpaper.jpg');
+    background-size: cover, cover, 600px;
+    background-blend-mode: overlay;
+    background-attachment: fixed;
+    overflow-x: hidden;
+    word-break: break-word;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: 'Katibeh', 'Amiri', 'Aref Ruqaa', serif;
-    font-weight: 700;
-    line-height: 1.3;
+  /* Luxury Gold Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-champagne);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-rose-gold);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-deep-rose);
   }
 }
 
 @layer components {
-  .font-serif {
-    font-family: 'Katibeh', 'Amiri', serif;
+  /* Authentic Shekasteh Calligraphy */
+  .font-nastaliq {
+    font-family: 'Shekasteh', 'Shekasteh V2', 'IranNastaliq', serif !important;
+    line-height: 2.3;
   }
 
-  .font-sans {
-    font-family: 'Vazirmatn', sans-serif;
-    font-feature-settings: 'ss01', 'ss02';
+  .font-shekasteh {
+    font-family: 'Shekasteh', 'Shekasteh V2', 'IranNastaliq', serif !important;
   }
 
-  .font-display {
-    font-family: 'Katibeh', 'Aref Ruqaa', 'Amiri', cursive, serif;
+  /* Luxury Glassmorphism */
+  .luxury-glass {
+    background: rgba(254, 253, 251, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    box-shadow: 0 20px 45px -10px rgba(62, 39, 35, 0.07);
   }
 
-  .font-katibeh {
-    font-family: 'Katibeh', cursive, serif;
+  .luxury-glass-dark {
+    background: rgba(42, 26, 23, 0.82);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(212, 175, 55, 0.35);
   }
 
-  .font-lalezar {
-    font-family: 'Lalezar', cursive, sans-serif;
+  /* Gradient Textures */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #b8860b 0%, #D4AF37 35%, #F5E3B3 50%, #D4AF37 65%, #AA820A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  .font-mirza {
-    font-family: 'Mirza', serif;
+  .text-rose-gradient {
+    background: linear-gradient(135deg, #9D4A55 0%, #B76E79 50%, #E8B4B8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  .heading-xl {
-    font-family: 'Katibeh', 'Amiri', serif;
-    font-size: clamp(3.8rem, 8.5vw, 7rem);
-    font-weight: 700;
-    line-height: 1.2;
+  .border-gold-gradient {
+    border-image: linear-gradient(to bottom right, #D4AF37, #F5E3B3, #B76E79) 1;
   }
 
-  .heading-lg {
-    font-family: 'Katibeh', 'Amiri', serif;
-    font-size: clamp(2.4rem, 5.5vw, 3.6rem);
-    font-weight: 700;
-    line-height: 1.3;
+  /* Luxury Card Frame */
+  .luxury-card-frame {
+    position: relative;
+    border-radius: 1.5rem;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.4), rgba(245, 227, 179, 0.1), rgba(183, 110, 121, 0.35));
   }
 
-  /* Sparkle & twinkle animations */
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
+  .luxury-card-inner {
+    border-radius: calc(1.5rem - 2px);
+    background: rgba(254, 253, 251, 0.94);
   }
-
-  .twinkle {
-    animation: twinkle 2s ease-in-out infinite;
-  }
-
-  .text-rose-gold {
-    color: var(--color-rose-gold);
-  }
-
-  .text-deep-rose {
-    color: var(--color-deep-rose);
-  }
-
-  .text-warm-gray {
-    color: var(--color-warm-gray);
-  }
-
-  .bg-silk {
-    background-color: var(--color-silk);
-  }
-
-  .bg-ivory {
-    background-color: var(--color-ivory);
-  }
-
-  .bg-champagne {
-    background-color: var(--color-champagne);
-  }
-
-  .border-rose-gold {
-    border-color: var(--color-rose-gold);
-  }
-
-  .border-blush {
-    border-color: var(--color-blush);
-  }
-
-  /* Decorative elements */
-  .decorative-line {
-    width: 100px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--color-rose-gold), var(--color-deep-rose), transparent);
-    margin: 0 auto;
-    border-radius: 2px;
-  }
-
-  .section-divider {
-    width: 200px;
-    height: 1px;
-    background: var(--color-blush);
-    margin: 0 auto;
-  }
-}
-
-/* Carousel canvas */
-#carousel-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-#carousel-canvas canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Scroll indicator bounce */
-@keyframes gentleBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(8px); }
-}
-.scroll-indicator {
-  animation: gentleBounce 2s ease-in-out infinite;
-  color: var(--color-rose-gold);
-}
-
-/* Form underline */
-.underline-input {
-  border: none;
-  border-bottom: 1px solid var(--color-blush);
-  border-radius: 0;
-  padding: 12px 0;
-  background: transparent;
-  font-family: 'Vazirmatn', sans-serif;
-  font-size: 16px;
-  color: var(--color-mahogany);
-  width: 100%;
-  outline: none;
-  transition: all 0.3s ease;
-  text-align: right;
-}
-.underline-input:focus {
-  border-bottom-color: var(--color-rose-gold);
-  background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,248,240,0.5) 100%);
-  box-shadow: 0 4px 15px rgba(183, 110, 121, 0.15);
-}
-.underline-input::placeholder {
-  color: var(--color-warm-gray);
-  opacity: 0.7;
-}
-
-/* RSVP pills */
-.rsvp-pill {
-  border: 1px solid var(--color-blush);
-  border-radius: 30px;
-  padding: 12px 28px;
-  font-family: 'Vazirmatn', sans-serif;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: transparent;
-  color: var(--color-mahogany);
-}
-.rsvp-pill.selected {
-  background: var(--color-rose-gold);
-  border-color: var(--color-rose-gold);
-  color: var(--color-ivory);
-}
-
-/* Link underline animation */
-.animated-underline {
-  position: relative;
-  display: inline-block;
-}
-.animated-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  right: 50%;
-  left: auto;
-  width: 0;
-  height: 1px;
-  background: var(--color-rose-gold);
-  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.animated-underline:hover::after {
-  width: 100%;
-  right: 0;
-}
-
-/* Fade-in entrance animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.fade-in {
-  animation: fadeIn 0.8s ease-out forwards;
-}
-
-/* Video overlay for hero */
-.hero-video-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(254, 253, 251, 0.7) 0%, rgba(254, 253, 251, 0.9) 100%);
-  z-index: 1;
-}
-
-/* Countdown box styling */
-.countdown-box {
-  background: rgba(242, 210, 189, 0.4);
-  backdrop-filter: blur(10px);
-  color: var(--color-mahogany);
-  padding: 0.75rem 1.25rem;
-  margin: 0.25rem;
-  border-radius: 12px;
-  min-width: 4.5rem;
-  text-align: center;
-  border: 1px solid rgba(183, 110, 121, 0.2);
-}
-.countdown-label {
-  font-size: 0.75rem;
-  color: var(--color-warm-gray);
-  letter-spacing: 0.05em;
-  margin-top: 0.25rem;
-  font-family: 'Vazirmatn', sans-serif;
-}
-
-/* Countdown box entrance animation */
-@keyframes countdownIn {
-  from {
-    opacity: 0;
-    transform: scale(0.85) translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-.countdown-animate {
-  animation: countdownIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-/* Glass morphism card */
-.glass-card {
-  background: rgba(254, 253, 251, 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(183, 110, 121, 0.15);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(62, 39, 35, 0.08);
-}
-
-/* Floating animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  33% { transform: translateY(-10px) rotate(1deg); }
-  66% { transform: translateY(5px) rotate(-1deg); }
-}
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Elegant scale in */
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.9) translateY(20px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-.animate-scale-in {
-  animation: scaleIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-/* Text shimmer effect */
-.text-shimmer {
-  background: linear-gradient(120deg, var(--color-rose-gold), var(--color-deep-rose));
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shimmer 3s linear infinite;
-}
-@keyframes shimmer {
-  to { background-position: 200% center; }
 }
