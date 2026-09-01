@@ -1,0 +1,241 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 36 33% 96%;
+    --foreground: 20 35% 12%;
+    --card: 36 33% 96%;
+    --card-foreground: 20 35% 12%;
+    --popover: 36 33% 96%;
+    --popover-foreground: 20 35% 12%;
+    --primary: 20 35% 12%;
+    --primary-foreground: 36 33% 96%;
+    --secondary: 30 25% 50%;
+    --secondary-foreground: 20 35% 12%;
+    --muted: 30 20% 90%;
+    --muted-foreground: 30 25% 50%;
+    --accent: 28 45% 64%;
+    --accent-foreground: 20 35% 12%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 28 45% 64%;
+    --input: 28 45% 64%;
+    --ring: 28 45% 64%;
+    --radius: 0.25rem;
+
+    --color-cream: #FAF6F1;
+    --color-espresso: #2C1810;
+    --color-taupe: #4B3B2F;
+    --color-gold: #B8860B; /* Darker gold for better contrast */
+    --color-blush: #E8D5C4;
+    --color-warm-bg: #F5EDE4;
+  }
+
+  html,
+  body {
+    height: 100%;
+    background-color: var(--color-cream);
+    margin: 0;
+    padding: 0;
+    font-family: 'Source Sans 3', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-weight: 300;
+    color: var(--color-espresso);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+}
+
+@layer components {
+  .font-serif {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-sans {
+    font-family: 'Source Sans 3', sans-serif;
+  }
+
+  .font-display {
+    font-family: 'Great Vibes', cursive;
+  }
+
+  /* Countdown box styling */
+  .countdown-box {
+    background: var(--color-blush);
+    color: var(--color-espresso);
+    padding: 0.5rem 1rem;
+    margin: 0.25rem;
+    border-radius: var(--radius);
+    min-width: 3rem;
+    text-align: center;
+  }
+  .countdown-label {
+    font-size: 0.75rem;
+    color: var(--color-espresso);
+  }
+
+  .text-espresso {
+    color: var(--color-espresso);
+  }
+
+  .text-taupe {
+    color: #332E28; /* Darker taupe for improved contrast */
+  }
+
+  .text-gold {
+    color: var(--color-gold);
+  }
+
+  .text-blush {
+    color: var(--color-blush);
+  }
+
+  .bg-cream {
+    background-color: var(--color-cream);
+  }
+
+  .bg-warm {
+    background-color: var(--color-warm-bg);
+  }
+
+  .border-gold {
+    border-color: var(--color-gold);
+  }
+
+  .border-blush {
+    border-color: var(--color-blush);
+  }
+}
+
+/* Carousel canvas */
+#carousel-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+#carousel-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Scroll indicator bounce */
+@keyframes gentleBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+.scroll-indicator {
+  animation: gentleBounce 2s ease-in-out infinite;
+}
+
+/* Form underline */
+.underline-input {
+  border: none;
+  border-bottom: 1px solid var(--color-blush);
+  border-radius: 0;
+  padding: 12px 0;
+  background: transparent;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 16px;
+  color: var(--color-espresso);
+  width: 100%;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+.underline-input:focus { border-bottom-color: var(--color-gold); }
+.underline-input::placeholder { color: var(--color-taupe); opacity: 0.6; }
+
+/* RSVP pills */
+.rsvp-pill {
+  border: 1px solid var(--color-blush);
+  border-radius: 30px;
+  padding: 12px 28px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: var(--color-espresso);
+}
+.rsvp-pill.selected {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: white;
+}
+
+/* Link underline animation */
+.animated-underline {
+  position: relative;
+  display: inline-block;
+}
+.animated-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--color-espresso);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+.animated-underline:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Decorative line */
+.decorative-line {
+  width: 80px;
+  height: 1px;
+  background: var(--color-gold);
+  margin: 0 auto;
+}
+
+/* Section divider */
+.section-divider {
+  width: 200px;
+  height: 1px;
+  background: var(--color-blush);
+  margin: 0 auto;
+}
+
+/* Fade‑in entrance animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
