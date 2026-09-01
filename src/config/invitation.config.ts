@@ -91,21 +91,19 @@ export const invitationConfig: InvitationConfig = {
     persianDateText: 'شنبه ۲۱ شهریور ۱۴۰۵',
     weddingDayText: 'شنبه ۲۱ شهریور ۱۴۰۵',
     timeText: 'ساعت ۱۹:۰۰ (۷ عصر)',
-    venueName: 'باغ تالار یاسین قم',
-    venueAddress: 'قم، خیابان باجک، انتهای خیابان لواسانی، جنب بوستان مهدی (عج)',
+    venueName: 'تالار پذیرایی یاسین قم',
+    venueAddress: 'قم، باجک دو، بلوار زائر (بلوار شهید قاسم سلیمانی)، کنار‌گذر بلوار زائر',
     city: 'قم',
   },
   navigation: {
     googleMapsEmbedUrl:
-      'https://maps.google.com/maps?q=%D8%AA%D8%A7%D9%84%D8%A7%D8%B1+%D9%BE%D8%B0%DB%8C%D8%B1%D8%A7%DB%8C%DB%8C+%DB%8C%D8%A7%D8%B3%DB%8C%D9%86+%D9%82%D9%85&hl=fa&z=15&output=embed',
+      'https://maps.google.com/maps?q=34.665741,50.905739&hl=fa&z=16&output=embed',
     googleMapsDirectUrl:
-      'https://www.google.com/maps/search/?api=1&query=%D8%AA%D8%A7%D9%84%D8%A7%D8%B1+%D9%BE%D8%B0%DB%8C%D8%B1%D8%A7%DB%8C%DB%8C+%DB%8C%D8%A7%D8%B3%DB%8C%D9%86+%D9%82%D9%85',
-    neshanDirectUrl:
-      'https://nshn.ir/search/%D8%AA%D8%A7%D9%84%D8%A7%D8%B1%20%DB%8C%D8%A7%D8%B3%DB%8C%D9%86%20%D9%82%D9%85',
-    baladDirectUrl:
-      'https://balad.ir/search/%D8%AA%D8%A7%D9%84%D8%A7%D8%B1%20%DB%8C%D8%A7%D8%B3%DB%8C%D9%86%20%D9%82%D9%85',
+      'https://www.google.com/maps/search/?api=1&query=34.665741%2C50.905739',
+    neshanDirectUrl: 'https://nshn.ir/1c_bsiVOPxvD-a',
+    baladDirectUrl: 'https://balad.ir/p/70nwBuvxylRcUA',
     appleMapsDirectUrl:
-      'https://maps.apple.com/?q=%D8%AA%D8%A7%D9%84%D8%A7%D8%B1%20%DB%8C%D8%A7%D8%B3%DB%8C%D9%86%20%D9%82%D9%85',
+      'https://maps.apple.com/?ll=34.665741,50.905739&q=%D8%AA%D8%A7%D9%84%D8%A7%D8%B1%20%D9%BE%D8%B0%DB%8C%D8%B1%D8%A7%DB%8C%DB%8C%20%DB%8C%D8%A7%D8%B3%DB%8C%D9%86%20%D9%82%D9%85',
   },
   media: {
     heroPoster: '/images/Intivation_pose.jpg',
