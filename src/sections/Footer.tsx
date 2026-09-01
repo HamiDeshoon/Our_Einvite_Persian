@@ -12,15 +12,19 @@ export default function Footer() {
     <footer className="relative pt-16 pb-12 px-4 text-center border-t border-gold/25 luxury-glass mt-12 z-10">
       <div className="max-w-2xl mx-auto flex flex-col items-center">
         {/* Monogram */}
-        <div className="w-16 h-16 rounded-full border border-gold/40 bg-ivory flex items-center justify-center shadow-gold-glow mb-4">
-          <span className="font-nastaliq text-2xl text-gold-gradient font-bold pt-1">
+        <div className="w-16 h-16 rounded-full border border-gold/40 bg-ivory flex items-center justify-center shadow-gold-glow mb-3">
+          <span className="font-shekasteh text-2xl text-gold-gradient font-bold pt-1">
             {couple.monogramFa}
           </span>
         </div>
 
-        {/* Names */}
-        <h3 className="font-nastaliq text-3xl sm:text-4xl text-mahogany font-bold mb-2 text-gold-gradient">
-          {couple.groom} & {couple.bride}
+        {/* English Cursive & Persian Names */}
+        <p className="font-script text-2xl sm:text-3xl text-rose-deep mb-1">
+          {couple.groomEn} & {couple.brideEn}
+        </p>
+
+        <h3 className="font-shekasteh text-4xl sm:text-5xl text-mahogany font-bold mb-2 text-gold-gradient py-1">
+          {couple.groom} <span className="font-shekasteh text-2xl text-rose-gold mx-2">و</span> {couple.bride}
         </h3>
 
         <p className="text-warm-gray text-xs sm:text-sm font-light mb-4">

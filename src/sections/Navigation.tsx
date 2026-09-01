@@ -35,13 +35,6 @@ export default function Navigation() {
       icon: '📍',
     },
     {
-      name: 'مسیریاب ویز',
-      nameEn: 'Waze',
-      url: `https://waze.com/ul?q=${encodeURIComponent(event.venueName + ' ' + event.city)}`,
-      bg: 'from-[#33CCFF]/10 to-[#33CCFF]/20 hover:border-[#33CCFF]/50 text-[#0369A1]',
-      icon: '🚙',
-    },
-    {
       name: 'اپل مپ',
       nameEn: 'Apple Maps',
       url: navigation.appleMapsDirectUrl,

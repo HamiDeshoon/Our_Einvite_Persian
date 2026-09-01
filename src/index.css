@@ -97,14 +97,19 @@
 }
 
 @layer components {
-  /* Authentic Shekasteh Calligraphy */
+  /* Authentic Shekasteh & Persian Calligraphy */
   .font-nastaliq {
-    font-family: 'Shekasteh', 'Shekasteh V2', 'IranNastaliq', serif !important;
-    line-height: 2.3;
+    font-family: 'Shekasteh V2', 'Shekasteh', 'IranNastaliq', 'Aref Ruqaa', serif !important;
+    line-height: 2.1;
   }
 
   .font-shekasteh {
-    font-family: 'Shekasteh', 'Shekasteh V2', 'IranNastaliq', serif !important;
+    font-family: 'Shekasteh V2', 'Shekasteh', 'IranNastaliq', 'Aref Ruqaa', serif !important;
+  }
+
+  /* Luxury English Wedding Script */
+  .font-script {
+    font-family: 'Great Vibes', 'Alex Brush', 'Parisienne', cursive !important;
   }
 
   /* Luxury Glassmorphism */
