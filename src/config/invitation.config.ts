@@ -74,6 +74,16 @@ export interface InvitationConfig {
     phone: string;
     displayPhone: string;
   };
+  giftInfo: {
+    title: string;
+    formalNote: string;
+    bankName: string;
+    accountHolder: string;
+    cardNumber: string;
+    cardNumberFormatted: string;
+    shabaNumber: string;
+    shabaNumberFormatted: string;
+  };
 }
 
 export const invitationConfig: InvitationConfig = {
@@ -159,5 +169,16 @@ export const invitationConfig: InvitationConfig = {
   contacts: {
     phone: '09120000000',
     displayPhone: '۰۹۱۲۰۰۰۰۰۰۰',
+  },
+  giftInfo: {
+    title: 'هدیه و شادباش پیوند',
+    formalNote:
+      'حضور گرم و پرمهر شما در جشن پیوند آسمانی‌مان، ارزشمندترین و ماندگارترین هدیه‌ای است که آرزویش را داریم. برای سروران گرامی و دوستانی که جویای اطلاعات حساب جهت تقدیم هدیه و یادبود بودند، جزئیات حساب زیر با کمال احترام و سپاس تقدیم می‌گردد.',
+    bankName: 'بانک سامان',
+    accountHolder: 'حمید و فاطمه',
+    cardNumber: '6219861468533855',
+    cardNumberFormatted: '۶۲۱۹ - ۸۶۱۴ - ۶۸۵۳ - ۳۸۵۵',
+    shabaNumber: 'IR400560611828006036370101',
+    shabaNumberFormatted: 'IR40 0560 6118 2800 6036 3701 01',
   },
 };

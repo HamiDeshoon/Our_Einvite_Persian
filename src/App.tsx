@@ -8,6 +8,7 @@ import OurStory from './sections/OurStory';
 import TheWedding from './sections/TheWedding';
 import Navigation from './sections/Navigation';
 import RSVP from './sections/RSVP';
+import GiftSection from './sections/GiftSection';
 import Footer from './sections/Footer';
 import AudioPlayer from './components/AudioPlayer';
 import './index.css';
@@ -29,6 +30,16 @@ export default function App() {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
+    // If URL contains #gift-section or ?gift
+    if (window.location.hash === '#gift-section' || window.location.search.includes('gift')) {
+      setTimeout(() => {
+        const giftEl = document.getElementById('gift-section');
+        if (giftEl) {
+          lenis.scrollTo(giftEl);
+        }
+      }, 500);
+    }
+
     return () => {
       lenis.destroy();
       gsap.ticker.remove(tick);
@@ -48,6 +59,7 @@ export default function App() {
         <TheWedding />
         <Navigation />
         <RSVP />
+        <GiftSection />
         <Footer />
       </main>
     </div>

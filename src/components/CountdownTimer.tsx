@@ -57,7 +57,7 @@ export default function CountdownTimer() {
     description: `${invitationConfig.couple.welcomeText}\nمحل برگزاری: ${invitationConfig.event.venueName} (${invitationConfig.event.venueAddress})`,
     location: `${invitationConfig.event.venueName}, ${invitationConfig.event.venueAddress}`,
     startTime: new Date(invitationConfig.event.targetIsoDate),
-    endTime: new Date('2026-09-11T23:59:00+03:30'),
+    endTime: new Date('2026-09-12T23:59:00+03:30'),
   };
 
   const timerUnits = [
@@ -82,12 +82,12 @@ export default function CountdownTimer() {
       <h3 className="font-shekasteh text-2xl sm:text-3xl text-mahogany font-bold mb-1.5 pt-1">
         لحظه‌شماری برای هم‌نفسی با شما عزیزان
       </h3>
-      <p className="text-warm-gray text-xs sm:text-sm font-light mb-7 max-w-md mx-auto leading-relaxed">
+      <p dir="rtl" className="text-warm-gray text-xs sm:text-sm font-light mb-7 max-w-md mx-auto leading-relaxed">
         {invitationConfig.event.weddingDayText} • {invitationConfig.event.timeText}
       </p>
 
-      {/* 4-Box Luxury Countdown Grid */}
-      <div className="grid grid-cols-4 gap-2 xs:gap-3 sm:gap-5 max-w-xl mx-auto mb-7">
+      {/* 4-Box Luxury Countdown Grid (Left to Right: Days -> Hours -> Minutes -> Seconds) */}
+      <div dir="ltr" className="grid grid-cols-4 gap-2 xs:gap-3 sm:gap-5 max-w-xl mx-auto mb-7">
         {timerUnits.map((unit) => (
           <div
             key={unit.label}

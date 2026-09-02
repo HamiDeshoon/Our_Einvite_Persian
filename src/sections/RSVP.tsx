@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { Heart, Send, CheckCircle2, User, Users, MessageSquare, Phone, Sparkles, AlertCircle, Plus, Minus } from 'lucide-react';
+import { Heart, Send, CheckCircle2, User, Users, MessageSquare, Phone, Sparkles, AlertCircle, Plus, Minus, Gift } from 'lucide-react';
 import { invitationConfig } from '../config/invitation.config';
 
 export default function RSVP() {
@@ -118,6 +118,16 @@ export default function RSVP() {
                   ? `بسیار خرسندیم که در این شب به‌یادماندنی در کنار ${couple.groom} و ${couple.bride} خواهید بود.`
                   : 'جای شما در این جشن پر از شادمانی خالی خواهد بود و از ابراز لطف و پیام پرمهرتان صمیمانه سپاسگزاریم.'}
               </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
+                <a
+                  href="#gift-section"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gold/40 luxury-glass text-xs font-medium text-mahogany hover:bg-gold/15 transition-all shadow-sm active:scale-95"
+                >
+                  <Gift className="w-4 h-4 text-gold-deep" />
+                  <span>مشاهده اطلاعات هدیه و شادباش پیوند</span>
+                </a>
+              </div>
 
               <button
                 type="button"
