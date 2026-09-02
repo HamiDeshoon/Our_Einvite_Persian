@@ -12,20 +12,22 @@ export default function Footer() {
     <footer className="relative pt-16 pb-12 px-4 text-center border-t border-gold/25 luxury-glass mt-12 z-10">
       <div className="max-w-2xl mx-auto flex flex-col items-center">
         {/* Monogram */}
-        <div className="w-16 h-16 rounded-full border border-gold/40 bg-ivory flex items-center justify-center shadow-gold-glow mb-3">
-          <span className="font-shekasteh text-2xl text-gold-gradient font-bold pt-1">
+        <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-gold/40 bg-ivory flex items-center justify-center p-2 shadow-gold-glow mb-4">
+          <span className="font-shekasteh text-2xl sm:text-3xl text-gold-gradient font-bold leading-normal block select-none">
             {couple.monogramFa}
           </span>
         </div>
 
         {/* English Cursive & Persian Names */}
-        <p className="font-script text-2xl sm:text-3xl text-rose-deep mb-1">
+        <p className="font-script text-2xl sm:text-3xl text-rose-deep mb-1 font-normal">
           {couple.groomEn} & {couple.brideEn}
         </p>
 
-        <h3 className="font-shekasteh text-4xl sm:text-5xl text-mahogany font-bold mb-2 text-gold-gradient py-1">
-          {couple.groom} <span className="font-shekasteh text-2xl text-rose-gold mx-2">و</span> {couple.bride}
-        </h3>
+        <div className="py-2 sm:py-3 overflow-visible">
+          <h3 className="font-shekasteh text-4xl sm:text-5xl md:text-6xl text-mahogany font-bold mb-2 text-gold-gradient py-2 leading-[1.8] sm:leading-[2.0] overflow-visible">
+            {couple.groom} <span className="font-shekasteh text-2xl sm:text-3xl text-rose-gold mx-2">و</span> {couple.bride}
+          </h3>
+        </div>
 
         <p className="text-warm-gray text-xs sm:text-sm font-light mb-4">
           {event.weddingDayText} • {event.venueName}

@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Volume2, VolumeX, Disc3, Sparkles } from 'lucide-react';
 import { invitationConfig } from '../config/invitation.config';
+import { asset } from '../lib/assets';
 
 export default function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showAutoPlayPrompt, setShowAutoPlayPrompt] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const trackSrc = invitationConfig.media.audioTrack;
+  const trackSrc = asset(invitationConfig.media.audioTrack);
   const trackTitle = invitationConfig.media.audioTitle || 'نوای دلنشین پیانو (La Maritza)';
 
   const buildAudio = () => {
@@ -77,8 +78,8 @@ export default function AudioPlayer() {
   return (
     <>
       {/* Floating Audio Controller in bottom-left */}
-      <div className="fixed bottom-5 left-5 z-50 flex items-center gap-2">
-        <div className="flex items-center gap-2 bg-ivory/90 backdrop-blur-xl border border-gold/30 shadow-luxury rounded-full p-1.5 pr-3.5 pl-2">
+      <div className="fixed bottom-3.5 left-3 xs:bottom-5 xs:left-5 z-50 flex items-center gap-2 max-w-[calc(100vw-24px)] select-none">
+        <div className="flex items-center gap-2 bg-ivory/90 backdrop-blur-xl border border-gold/30 shadow-luxury rounded-full p-1.5 pr-3 pl-1.5 xs:pr-3.5 xs:pl-2">
           <button
             type="button"
             onClick={toggleMusic}

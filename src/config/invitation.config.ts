@@ -68,6 +68,7 @@ export interface InvitationConfig {
   rsvp: {
     deadlineText: string;
     maxGuestsPerSubmission: number;
+    sheetEndpoint: string;
   };
   contacts: {
     phone: string;
@@ -113,15 +114,9 @@ export const invitationConfig: InvitationConfig = {
     gallery: [
       {
         id: '1',
-        src: '/images/Intivation_pose.jpg',
-        title: 'عهد و پیمان عاشقی',
-        caption: 'آغاز سرسبزترین فصل با هم بودن و پیوند آسمانی‌مان',
-      },
-      {
-        id: '2',
         src: '/images/proposal_us.jpg',
         title: 'لحظه شیرین آغاز',
-        caption: 'سپردن دست‌های مهر و وفا برای ساختن فردایی روشن',
+        caption: 'سپردن دست‌های مهر و وفا برای ساختن فردایی روشن و جاودانه',
       },
     ],
   },
@@ -157,6 +152,9 @@ export const invitationConfig: InvitationConfig = {
   rsvp: {
     deadlineText: 'لطفاً تا تاریخ ۱۸ شهریور حضور گرمتان را اعلام فرمایید',
     maxGuestsPerSubmission: 5,
+    sheetEndpoint:
+      import.meta.env.VITE_GOOGLE_SHEET_URL ||
+      'https://script.google.com/macros/s/AKfycbydJo1ES-kazPBt5m9r2whrLL4F9h_igGd5T3fybgSk7S-m6_TJ-6ZvbTamiN3Bp3dt/exec',
   },
   contacts: {
     phone: '09120000000',

@@ -1,11 +1,24 @@
-// Prefix a public asset path with the configured base URL so assets resolve
-// correctly whether the app is served from the root (localhost dev) or a
-// sub-path (e.g. a GitHub Pages project site like /Our_Einvite/).
-//
-// Vite's `base: './'` rewrites bundled JS/CSS imports for us, but string paths
-// passed straight to <img src>, <video src/poster>, three.js TextureLoader, etc.
-// are NOT processed — so they must be prefixed manually.
+/**
+ * Resolves asset paths correctly across local dev and GitHub Pages production builds.
+ * Ensures the repository subpath (e.g. /Our_Einvite_Persian/) is prepended to public assets.
+ */
 export function asset(path: string): string {
-  const base = import.meta.env.BASE_URL; // './' with base: './'
-  return `${base}${path.replace(/^\//, '')}`;
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
+    return path;
+  }
+  const clean = path.startsWith('/') ? path.slice(1) : path;
+  const encoded = clean
+    .split('/')
+    .map((segment) => {
+      if (segment === '') return segment;
+      try {
+        return encodeURIComponent(decodeURIComponent(segment));
+      } catch {
+        return encodeURIComponent(segment);
+      }
+    })
+    .join('/');
+  const base = import.meta.env.BASE_URL || '/';
+  return base.endsWith('/') ? `${base}${encoded}` : `${base}/${encoded}`;
 }

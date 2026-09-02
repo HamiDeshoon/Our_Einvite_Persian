@@ -1,5 +1,6 @@
 import { Heart, ChevronDown, Sparkles } from 'lucide-react';
 import { invitationConfig } from '../config/invitation.config';
+import { asset } from '../lib/assets';
 
 export default function Hero() {
   const { couple, event, media } = invitationConfig;
@@ -12,11 +13,11 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-[95vh] sm:min-h-screen flex flex-col items-center justify-center text-center px-4 pt-12 pb-16 overflow-hidden">
+    <section className="relative min-h-[100dvh] flex flex-col items-center justify-center text-center px-4 pt-10 pb-12 sm:pb-16 overflow-hidden">
       {/* Background Hero Image with luxury radial overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src={media.heroPoster}
+          src={asset(media.heroPoster)}
           alt={`${couple.groom} و ${couple.bride}`}
           className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.03] scale-105 transition-transform duration-1000"
         />
@@ -25,11 +26,11 @@ export default function Hero() {
       </div>
 
       {/* Hero Content Box */}
-      <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
+      <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center w-full">
         {/* Monogram Emblem */}
-        <div className="relative mb-5">
-          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border border-gold/40 luxury-glass flex items-center justify-center shadow-gold-glow animate-pulse-gentle">
-            <span className="font-shekasteh text-2xl sm:text-3xl text-gold-gradient font-bold pt-1">
+        <div className="relative mb-4 sm:mb-6">
+          <div className="w-22 h-22 sm:w-28 sm:h-28 rounded-full border border-gold/40 luxury-glass flex items-center justify-center p-2 shadow-gold-glow animate-pulse-gentle">
+            <span className="font-shekasteh text-3xl sm:text-4xl text-gold-gradient font-bold leading-normal block select-none">
               {couple.monogramFa}
             </span>
           </div>
@@ -41,20 +42,20 @@ export default function Hero() {
         {/* Small Intro Badge */}
         <div className="inline-flex items-center gap-2 mb-3 px-4 py-1.5 rounded-full luxury-glass border border-gold/30">
           <span className="w-1.5 h-1.5 rounded-full bg-rose-gold animate-ping" />
-          <span className="text-xs sm:text-sm font-serif text-rose-deep tracking-wider">
+          <span className="text-[11px] sm:text-xs font-serif text-rose-deep tracking-wider">
             {couple.familyInvitationText}
           </span>
         </div>
 
         {/* English Handwriting Script Title Above */}
-        <p className="font-script text-3xl xs:text-4xl sm:text-5xl md:text-6xl text-rose-deep tracking-wider mb-0 font-normal drop-shadow-sm select-none">
+        <p className="font-script text-3xl xs:text-4xl sm:text-5xl md:text-6xl text-rose-deep tracking-wider mb-1 font-normal drop-shadow-sm select-none">
           {couple.groomEn} & {couple.brideEn}
         </p>
 
-        {/* Bold Persian Calligraphy with Shekasteh V2 */}
-        <div className="my-1 sm:my-2 pb-2 sm:pb-4 w-full">
-          <h1 className="font-shekasteh text-6xl xs:text-7xl sm:text-8xl md:text-9xl text-mahogany font-bold tracking-normal leading-[1.6] sm:leading-[1.8] text-gold-gradient drop-shadow-[0_4px_16px_rgba(212,175,55,0.2)]">
-            {couple.groom} <span className="font-shekasteh text-4xl sm:text-6xl md:text-7xl text-rose-gold mx-2 sm:mx-4">و</span> {couple.bride}
+        {/* Bold Persian Calligraphy with Shekasteh V2 - Generous Clearance */}
+        <div className="my-2 sm:my-4 py-4 sm:py-6 w-full overflow-visible">
+          <h1 className="font-shekasteh text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-mahogany font-bold tracking-normal leading-[1.8] sm:leading-[2.1] text-gold-gradient drop-shadow-[0_4px_16px_rgba(212,175,55,0.2)] overflow-visible">
+            {couple.groom} <span className="font-shekasteh text-3xl xs:text-4xl sm:text-6xl text-rose-gold mx-1.5 sm:mx-3">و</span> {couple.bride}
           </h1>
         </div>
 
@@ -64,10 +65,10 @@ export default function Hero() {
         </p>
 
         {/* Wedding Date Ribbon */}
-        <div className="relative rounded-2xl p-0.5 bg-gradient-to-r from-gold/30 via-rose-gold/40 to-gold/30 shadow-luxury mb-10">
-          <div className="px-6 py-3 rounded-[calc(1rem-2px)] bg-ivory/95 backdrop-blur-md flex items-center gap-3">
+        <div className="relative rounded-2xl p-0.5 bg-gradient-to-r from-gold/30 via-rose-gold/40 to-gold/30 shadow-luxury mb-10 overflow-visible">
+          <div className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-[calc(1rem-2px)] bg-ivory/95 backdrop-blur-md flex items-center gap-3">
             <Heart className="w-4 h-4 text-rose-gold fill-rose-gold animate-bounce" />
-            <span className="font-shekasteh text-xl sm:text-2xl text-mahogany font-semibold pt-1">
+            <span className="font-shekasteh text-xl sm:text-2xl text-mahogany font-semibold pt-1 leading-normal">
               {event.weddingDayText}
             </span>
             <span className="text-xs text-warm-gray font-light">|</span>

@@ -100,11 +100,18 @@
   /* Authentic Shekasteh & Persian Calligraphy */
   .font-nastaliq {
     font-family: 'Shekasteh V2', 'Shekasteh', 'IranNastaliq', 'Aref Ruqaa', serif !important;
-    line-height: 2.1;
+    line-height: 2.3;
+    overflow: visible;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
   }
 
   .font-shekasteh {
     font-family: 'Shekasteh V2', 'Shekasteh', 'IranNastaliq', 'Aref Ruqaa', serif !important;
+    line-height: 2.3;
+    overflow: visible;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
   }
 
   /* Luxury English Wedding Script */

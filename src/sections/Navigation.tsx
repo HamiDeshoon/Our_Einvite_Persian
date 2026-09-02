@@ -92,7 +92,7 @@ export default function Navigation() {
                 <button
                   type="button"
                   onClick={copyAddress}
-                  className="w-full py-3 px-4 rounded-2xl luxury-glass border border-gold/40 text-xs sm:text-sm font-medium text-mahogany hover:bg-gold/15 transition-all duration-300 flex items-center justify-center gap-2 shadow-sm mb-6"
+                  className="w-full min-h-[48px] py-3 px-4 rounded-xl sm:rounded-2xl luxury-glass border border-gold/40 text-xs sm:text-sm font-medium text-mahogany hover:bg-gold/15 transition-all duration-300 flex items-center justify-center gap-2 shadow-sm mb-5 active:scale-98 cursor-pointer"
                 >
                   {copied ? (
                     <>
@@ -112,20 +112,20 @@ export default function Navigation() {
                   <span className="text-[11px] uppercase tracking-wider text-rose-deep font-serif block mb-3 text-center">
                     انتخاب اپلیکیشن مسیریابی
                   </span>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
                     {navApps.map((app) => (
                       <a
                         key={app.nameEn}
                         href={app.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`p-2.5 rounded-xl border border-gold/25 bg-gradient-to-r ${app.bg} transition-all duration-300 flex items-center justify-between group`}
+                        className={`min-h-[48px] p-2.5 rounded-xl border border-gold/25 bg-gradient-to-r ${app.bg} transition-all duration-300 flex items-center justify-between group active:scale-95`}
                       >
                         <div className="flex items-center gap-2">
                           <span className="text-base">{app.icon}</span>
                           <span className="text-xs font-medium">{app.name}</span>
                         </div>
-                        <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100 transition-opacity" />
+                        <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
                       </a>
                     ))}
                   </div>

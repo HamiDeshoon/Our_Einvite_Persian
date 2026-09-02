@@ -79,25 +79,25 @@ export default function CountdownTimer() {
         <span className="h-px w-8 bg-gradient-to-l from-transparent to-gold/60" />
       </div>
 
-      <h3 className="font-nastaliq text-2xl sm:text-3xl text-mahogany font-bold mb-2">
+      <h3 className="font-shekasteh text-2xl sm:text-3xl text-mahogany font-bold mb-1.5 pt-1">
         لحظه‌شماری برای هم‌نفسی با شما عزیزان
       </h3>
-      <p className="text-warm-gray text-xs sm:text-sm font-light mb-8 max-w-md mx-auto leading-relaxed">
+      <p className="text-warm-gray text-xs sm:text-sm font-light mb-7 max-w-md mx-auto leading-relaxed">
         {invitationConfig.event.weddingDayText} • {invitationConfig.event.timeText}
       </p>
 
       {/* 4-Box Luxury Countdown Grid */}
-      <div className="grid grid-cols-4 gap-2.5 sm:gap-5 max-w-xl mx-auto mb-8">
+      <div className="grid grid-cols-4 gap-2 xs:gap-3 sm:gap-5 max-w-xl mx-auto mb-7">
         {timerUnits.map((unit) => (
           <div
             key={unit.label}
-            className="group relative rounded-2xl p-0.5 bg-gradient-to-b from-gold/40 via-champagne-200/50 to-rose-gold/30 shadow-luxury transition-all duration-300 hover:-translate-y-1 hover:shadow-gold-glow"
+            className="group relative rounded-xl sm:rounded-2xl p-0.5 bg-gradient-to-b from-gold/40 via-champagne-200/50 to-rose-gold/30 shadow-luxury transition-all duration-300 hover:-translate-y-1 hover:shadow-gold-glow"
           >
-            <div className="rounded-[calc(1rem-2px)] bg-ivory/95 backdrop-blur-md p-3 sm:p-5 border border-white/90 text-center">
-              <div className="font-katibeh text-3xl sm:text-5xl font-bold text-mahogany text-gold-gradient tracking-tight">
+            <div className="rounded-[calc(0.75rem-2px)] sm:rounded-[calc(1rem-2px)] bg-ivory/95 backdrop-blur-md p-2 xs:p-3 sm:p-5 border border-white/90 text-center">
+              <div className="font-katibeh text-2xl xs:text-3xl sm:text-5xl font-bold text-mahogany text-gold-gradient tracking-tight">
                 {toPersianDigits(unit.value < 10 ? `0${unit.value}` : unit.value)}
               </div>
-              <div className="text-[11px] sm:text-xs text-warm-gray font-medium mt-1">
+              <div className="text-[10px] sm:text-xs text-warm-gray font-medium mt-0.5">
                 {unit.label}
               </div>
             </div>
@@ -110,7 +110,7 @@ export default function CountdownTimer() {
         <button
           type="button"
           onClick={() => setCalendarOpen(!calendarOpen)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full luxury-glass border border-gold/40 text-xs sm:text-sm font-medium text-mahogany hover:bg-gold/10 transition-all duration-300 shadow-sm"
+          className="inline-flex items-center gap-2 min-h-[46px] px-5 py-2.5 rounded-full luxury-glass border border-gold/40 text-xs sm:text-sm font-medium text-mahogany hover:bg-gold/10 transition-all duration-300 shadow-sm active:scale-95 cursor-pointer"
         >
           <Calendar className="w-4 h-4 text-gold-deep" />
           <span>یادآوری در تقویم</span>
@@ -118,12 +118,12 @@ export default function CountdownTimer() {
         </button>
 
         {calendarOpen && (
-          <div className="absolute top-full right-1/2 translate-x-1/2 mt-2 w-56 luxury-glass rounded-2xl shadow-xl border border-gold/30 p-2 z-50 animate-fadeIn text-right">
+          <div className="absolute top-full right-1/2 translate-x-1/2 mt-2 w-60 luxury-glass rounded-2xl shadow-2xl border border-gold/30 p-2 z-50 animate-fadeIn text-right">
             <a
               href={generateGoogleCalendarUrl(eventConfig)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between px-3 py-2 text-xs text-mahogany rounded-xl hover:bg-champagne-100/80 transition-colors"
+              className="flex items-center justify-between min-h-[44px] px-3.5 py-2.5 text-xs text-mahogany rounded-xl hover:bg-champagne-100/80 transition-colors"
             >
               <span>تقویم گوگل (Google Calendar)</span>
               <ExternalLink className="w-3.5 h-3.5 text-gold-deep" />
@@ -132,7 +132,7 @@ export default function CountdownTimer() {
               href={generateOutlookCalendarUrl(eventConfig)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between px-3 py-2 text-xs text-mahogany rounded-xl hover:bg-champagne-100/80 transition-colors"
+              className="flex items-center justify-between min-h-[44px] px-3.5 py-2.5 text-xs text-mahogany rounded-xl hover:bg-champagne-100/80 transition-colors"
             >
               <span>تقویم مایکروسافت (Outlook)</span>
               <ExternalLink className="w-3.5 h-3.5 text-gold-deep" />
@@ -140,7 +140,7 @@ export default function CountdownTimer() {
             <button
               type="button"
               onClick={() => downloadIcsFile(eventConfig)}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-mahogany rounded-xl hover:bg-champagne-100/80 transition-colors"
+              className="w-full flex items-center justify-between min-h-[44px] px-3.5 py-2.5 text-xs text-mahogany rounded-xl hover:bg-champagne-100/80 transition-colors cursor-pointer"
             >
               <span>دانلود فایل تقویم (Apple / iCal)</span>
               <Download className="w-3.5 h-3.5 text-rose-gold" />
