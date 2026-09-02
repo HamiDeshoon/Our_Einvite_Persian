@@ -1,9 +1,9 @@
 /**
  * Google Apps Script for RSVP form endpoint.
- * Replace SHEET_ID with your Google Sheet ID.
+ * Sheet ID: 1wvGA6M_Zt1kR5IU1d80_yxyhRpPNa6al1pTlT44tUJ4
  */
 
-const SHEET_ID = '1wvGA6M_Zt1kR5IU1d80_yxyhRpPNa6al1pTlT44tUJ4'; // <-- replace with your sheet ID
+const SHEET_ID = '1wvGA6M_Zt1kR5IU1d80_yxyhRpPNa6al1pTlT44tUJ4';
 
 /**
  * Handle GET requests (useful for checking the endpoint in a browser).
@@ -42,12 +42,20 @@ function doPost(e) {
     ];
     sheet.appendRow(row);
 
-    // Optional: send email notification
+    // ----- Email notification to Hamid & Fatemeh -----
     MailApp.sendEmail({
-       to: Session.getActiveUser().getEmail(),
-       subject: 'New RSVP',
-       body: `New RSVP received:\nName: ${data.name}\nEmail: ${data.email}\nAttending: ${data.attending}\nMessage: ${data.message}`
-     });
+      to: 'tmha456@gmail.com, fatiniki7728@gmail.com',
+      subject: 'New RSVP received — جشن پیوند حمید و فاطمه',
+      body: `New RSVP submission received:\n\n` +
+            `نام مهمان: ${data.name || ''}\n` +
+            `وضعیت حضور: ${data.attending || ''}\n` +
+            `تعداد همراهان: ${data.guests || ''}\n` +
+            `شماره تماس: ${data.phone || ''}\n` +
+            `ایمیل: ${data.email || ''}\n` +
+            `پیام تبریک: ${data.message || ''}\n\n` +
+            `زمان ثبت: ${timestamp.toLocaleString('fa-IR', { timeZone: 'Asia/Tehran' })}`
+    });
+    // --------------------------------------------------
 
     return ContentService
       .createTextOutput(JSON.stringify({ result: 'success' }))
